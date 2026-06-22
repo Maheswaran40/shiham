@@ -1,106 +1,24 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <style>
-      nav {
-        background-color: red;
-        height: 100px;
-        display: flex;
-        justify-content: space-between;
-        padding: 0px 20px;
-        align-items: center;
-        flex-direction: row-reverse;
-      }
-      .parent {
-        display: grid;
-        background-color: rgb(196, 145, 243);
-        height: fit-content;
-        grid-template-columns: repeat(4, 1fr);
-        column-gap: 20px;
-        row-gap: 20px;
-      }
-      .child {
-        background-color: yellow;
-      }
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  
+</head>
+<body>
+  
+<form onsubmit="LoginFun(event)" >
+  <input type="text" placeholder="username" id="user">
+  <br>
+  <label for="">Username:Ilife</label> <br>
+  <input type="password" placeholder="password" id="pass">
+   <br>
+  <label for="">password:123</label> <br>
+  <input type="submit" >
+</form>
 
 
-      #like {
-        display: none;
-      }
-      #login{
-        /* animation: name duration timing-function delay iteration-count direction ; */
-        animation: move 2s linear infinite alternate;
-      }
-
-      @keyframes move {
-        from{
-            transform: translateY(15px);
-        }
-        to{
-              transform: translateY(-15px);
-        }
-      }
-
-      @media (max-width: 426px) {
-        body {
-          background-color: aqua;
-        }
-        .parent {
-          grid-template-columns: 1fr;
-        }
-        #like {
-          display: flex;
-        }
-        form{
-            display: none;
-        }
-      }
-
-      @media (min-width:426px) and (max-width:769px) {
-        .parent {
-          grid-template-columns:1fr 1fr;
-        }
-      }
-
-
-
-
-      
-    </style>
-  </head>
-  <body>
-    <!-- Display  -->
-    <nav>
-      <img src="./images/logo.png" height="70px" width="70px" alt="" />
-      <form>
-        <input type="search" />
-        <input type="submit" />
-      </form>
-      <div>
-        <button>cart</button>
-        <button id="login">login</button>
-        <button id="like">like</button>
-      </div>
-    </nav>
-
-    <!-- products -->
-    <div class="parent">
-      <div class="child">
-        <img src="./images/iphone.png" height="200px" width="100%" alt="" />
-      </div>
-      <div class="child">
-        <img src="./images/samsung.png" height="200px" width="100%" alt="" />
-      </div>
-      <div class="child">
-        <img src="./images/image.png" height="200px" width="100%" alt="" />
-      </div>
-      <div class="child">
-        <img src="./images/vivo.png" height="200px" width="100%" alt="" />
-      </div>
-    </div>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere molestias voluptatibus deleniti facilis delectus mollitia quo voluptas, distinctio nostrum cum culpa sunt dolorem vitae est earum sit eligendi quibusdam rem. Totam vero quas possimus nostrum, corporis provident dolor accusamus quibusdam corrupti ut velit quod veniam dolorum quaerat tempora omnis voluptas fugiat et illum incidunt? Molestias ratione iste, perferendis laborum eius sapiente eum excepturi sit officia, blanditiis, ipsam facere fuga consectetur! Dolores libero soluta corrupti, qui doloremque facilis fugiat eum quam minus odio unde? Dolorem voluptatum corporis provident ipsam sit totam aspernatur laborum ea dolor necessitatibus odio optio voluptate debitis itaque rerum unde fugit officiis quidem, modi, odit repudiandae explicabo. Laudantium placeat suscipit accusantium hic obcaecati optio beatae ipsum quasi libero rem excepturi numquam dolorem id quo voluptatem tempora quod recusandae est totam velit maxime officiis non, fugit pariatur! Pariatur earum fuga exercitationem modi alias recusandae dolorum quis quibusdam ullam culpa consequuntur harum, est possimus explicabo. Culpa voluptas voluptatum magni eos, quia ea reprehenderit animi libero dolorum accusantium quo minima fuga similique quibusdam doloribus accusamus beatae eum id quae. Nemo, nihil quae corrupti soluta vitae iusto ad quisquam id minima ducimus. Quod ullam deserunt assumenda earum. Dolorem, ut tempore facere alias repellendus odit iure inventore, quisquam provident quibusdam nihil quasi illo beatae, repellat est placeat aliquid molestias deleniti voluptates necessitatibus ab eaque vero temporibus quos? Sapiente possimus ad fugit accusamus illo praesentium ducimus repudiandae unde, impedit sint non. Nihil quae dolores officia, minus, culpa iure quas quod quidem necessitatibus voluptates, beatae perferendis consequuntur cupiditate! Incidunt ipsum quaerat exercitationem distinctio explicabo odit quos aliquam facere, doloribus consequuntur amet! Reiciendis dolorem doloremque, in nostrum cumque, corrupti porro molestiae voluptatibus dignissimos sed molestias sapiente tempore voluptate ipsa repellendus explicabo dolor repudiandae recusandae, nam nemo dicta qui quaerat! Odio maxime adipisci, asperiores dolores tenetur veniam.</p>
-  </body>
+</body>
+<script src="./assets/scripts/Login.js"></script>
 </html>
