@@ -1,50 +1,420 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-      crossorigin="anonymous"
-    />
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-      crossorigin="anonymous"
-    ></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SimpleStore · E‑commerce</title>
+  <!-- Bootstrap 5 + Icons (optional but clean) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Font Awesome 6 (free) for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    body {
+      background: #f8f9fa;
+      padding: 1rem;
+    }
+    .store-header {
+      background: white;
+      padding: 1rem 1.5rem;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+      margin-bottom: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .store-header h2 {
+      font-weight: 600;
+      color: #1e293b;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .store-header h2 i {
+      color: #3b82f6;
+    }
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .product-card {
+      border: none;
+      border-radius: 24px;
+      background: white;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+      transition: 0.25s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.02);
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 32px rgba(0,0,0,0.06);
+      border-color: #e9edf2;
+    }
+    .product-card img {
+      object-fit: contain;
+      background: #fafbfc;
+      padding: 1rem;
+      height: 200px;
+      width: 100%;
+      transition: 0.2s;
+    }
+    .product-card .card-body {
+      padding: 1rem 1rem 1.2rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .product-card .card-body .product-name {
+      font-weight: 600;
+      color: #0b1b32;
+      font-size: 1.1rem;
+    }
+    .product-card .card-body .product-price {
+      font-weight: 700;
+      color: #2563eb;
+      font-size: 1.2rem;
+      margin: 6px 0 12px;
+    }
+    .product-card .card-body .product-price small {
+      font-weight: 400;
+      color: #6b7a8f;
+      font-size: 0.8rem;
+      margin-left: 4px;
+    }
+    .btn-add-cart {
+      border-radius: 40px;
+      background: #f0f4fe;
+      border: none;
+      color: #1e4f8a;
+      font-weight: 500;
+      padding: 8px 0;
+      transition: 0.15s;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-add-cart:hover {
+      background: #2563eb;
+      color: white;
+    }
+    .offcanvas.offcanvas-top {
+      height: 60vh;
+      max-height: 560px;
+      border-bottom: 1px solid #dee2e6;
+      border-radius: 0 0 28px 28px;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.06);
+    }
+    .offcanvas-header {
+      border-bottom: 1px solid #f0f2f5;
+      padding-bottom: 0.8rem;
+    }
+    .offcanvas-body {
+      overflow-y: auto;
+    }
+    #searchOutput .card {
+      border-radius: 20px;
+      border: 1px solid #edf2f7;
+    }
+    .table-cart th {
+      font-weight: 500;
+      color: #475569;
+      border-bottom: 2px solid #e9edf2;
+    }
+    .table-cart td {
+      vertical-align: middle;
+      border-color: #f1f4f9;
+    }
+    .cart-quantity-badge {
+      background: #eef2f6;
+      padding: 4px 12px;
+      border-radius: 40px;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .btn-close-custom {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      transition: 0.15s;
+      padding: 6px 10px;
+      border-radius: 40px;
+    }
+    .btn-close-custom:hover {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+    .empty-cart-msg {
+      color: #94a3b8;
+      padding: 2rem 0;
+      text-align: center;
+    }
+    @media (max-width: 576px) {
+      .store-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+      }
+      .action-buttons {
+        justify-content: stretch;
+      }
+      .action-buttons .btn {
+        flex: 1;
+      }
+    }
+  </style>
 </head>
 <body>
-    <h2>Welcome to home page</h2>
-    <button class="btn btn-info" data-bs-toggle="offcanvas" data-bs-target="#searchCanvas">search</button>
 
-    <div class="row" id="showData">
-       
-        
+<div class="container">
+
+  <!-- Header -->
+  <div class="store-header">
+    <h2><i class="fas fa-store-alt"></i> SimpleStore</h2>
+    <div class="action-buttons">
+      <button class="btn btn-outline-primary rounded-pill px-4" data-bs-toggle="offcanvas" data-bs-target="#searchCanvas">
+        <i class="fas fa-search me-1"></i> Search
+      </button>
+      <button class="btn btn-primary rounded-pill px-4" data-bs-toggle="offcanvas" data-bs-target="#cartCanvas">
+        <i class="fas fa-shopping-cart me-1"></i> Cart <span id="cartCount" class="badge bg-light text-dark ms-1">0</span>
+      </button>
     </div>
+  </div>
 
-<div class="offcanvas offcanvas-top" id="searchCanvas" style="height: 500px;">
+  <!-- Product grid -->
+  <div class="row g-4" id="showData"></div>
+
+  <!-- Search Offcanvas -->
+  <div class="offcanvas offcanvas-top" id="searchCanvas" style="height: 500px;">
     <div class="offcanvas-header">
-        <h2>search items</h2>
-        <button class="btn btn-close" data-bs-dismiss="offcanvas"></button>
+      <h5 class="fw-bold"><i class="fas fa-search text-primary me-2"></i>Search products</h5>
+      <button class="btn-close" data-bs-dismiss="offcanvas"></button>
     </div>
     <div class="offcanvas-body">
-        <form class="input-group" onsubmit="searchFun(event)">
-            <input type="search" class="form-control" id="input">
-            <input type="submit" class="btn btn-success"> 
-        </form>
-
-        <br>
-        <div class="row" id="searchOutput">
-
-        </div>
+      <form class="input-group mb-4" onsubmit="searchFun(event)">
+        <input type="search" class="form-control" id="input" placeholder="Type product name or price ..." />
+        <button class="btn btn-primary" type="submit"><i class="fas fa-arrow-right"></i></button>
+      </form>
+      <div class="row row-cols-2 row-cols-md-4 g-3" id="searchOutput"></div>
+      <div id="searchEmptyMsg" class="text-muted text-center py-4" style="display:none;">No products found</div>
     </div>
+  </div>
+
+  <!-- Cart Offcanvas -->
+  <div class="offcanvas offcanvas-top" id="cartCanvas" style="height: 500px;">
+    <div class="offcanvas-header">
+      <h5 class="fw-bold"><i class="fas fa-shopping-cart text-primary me-2"></i>Your cart</h5>
+      <button class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div class="table-responsive">
+        <table class="table table-cart align-middle">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Qty</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="cartShow"></tbody>
+        </table>
+      </div>
+      <div id="cartEmptyMsg" class="empty-cart-msg">
+        <i class="fas fa-box-open fa-2x mb-2 d-block text-muted"></i> Cart is empty
+      </div>
+    </div>
+  </div>
+
 </div>
 
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
+<script>
+  // ---------- PRODUCTS (extended) ----------
+  let products = [
+    { id: 1, name: "Samsung Galaxy S24", price: 1099, image: "../images/samsung.png" },
+    { id: 2, name: "Vivo X100 Pro", price: 899, image: "../images/vivo.png" },
+    { id: 3, name: "iPhone 15 Pro", price: 1299, image: "../images/iphone.png" },
+    { id: 4, name: "OnePlus 12", price: 799, image: "../images/oneplus.png" },
+    { id: 5, name: "Xiaomi 14", price: 699, image: "../images/xiaomi.png" },
+    { id: 6, name: "Google Pixel 8", price: 999, image: "../images/pixel.png" },
+    { id: 7, name: "Nothing Phone (2)", price: 649, image: "../images/nothing.png" },
+    { id: 8, name: "Motorola Edge 40", price: 549, image: "../images/motorola.png" }
+  ];
+
+  // fallback images if local images missing → use placeholder
+  const placeholderImages = {
+    1: "https://placehold.co/300x200/e2e8f0/1e293b?text=Samsung",
+    2: "https://placehold.co/300x200/e2e8f0/1e293b?text=Vivo",
+    3: "https://placehold.co/300x200/e2e8f0/1e293b?text=iPhone",
+    4: "https://placehold.co/300x200/e2e8f0/1e293b?text=OnePlus",
+    5: "https://placehold.co/300x200/e2e8f0/1e293b?text=Xiaomi",
+    6: "https://placehold.co/300x200/e2e8f0/1e293b?text=Pixel",
+    7: "https://placehold.co/300x200/e2e8f0/1e293b?text=Nothing",
+    8: "https://placehold.co/300x200/e2e8f0/1e293b?text=Motorola"
+  };
+
+  // -------- helper: safe image --------
+  function getProductImage(product) {
+    // if image path exists and not empty, use it; otherwise fallback placeholder
+    if (product.image && product.image.trim() !== "" && !product.image.includes("undefined")) {
+      return product.image;
+    }
+    return placeholderImages[product.id] || `https://placehold.co/300x200/e2e8f0/1e293b?text=${encodeURIComponent(product.name)}`;
+  }
+
+  // -------- render products --------
+  function showData() {
+    let data = "";
+    products.forEach((v) => {
+      const imgSrc = getProductImage(v);
+      data += `
+        <div class="col-lg-3 col-md-4 col-6">
+          <div class="product-card">
+            <img src="${imgSrc}" alt="${v.name}" />
+            <div class="card-body">
+              <div class="product-name">${v.name}</div>
+              <div class="product-price">$${v.price} <small>USD</small></div>
+              <button class="btn-add-cart" onclick="cartFun(${v.id})">
+                <i class="fas fa-plus-circle"></i> Add to cart
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+    document.getElementById("showData").innerHTML = data;
+  }
+  showData();
+
+  // -------- search --------
+  function searchFun(e) {
+    e.preventDefault();
+    const input = document.getElementById("input").value.trim();
+    const searchOutput = document.getElementById("searchOutput");
+    const emptyMsg = document.getElementById("searchEmptyMsg");
+
+    if (input === "") {
+      searchOutput.innerHTML = "";
+      emptyMsg.style.display = "block";
+      emptyMsg.innerText = "Please enter a search term";
+      return;
+    }
+
+    const filtered = products.filter((v) => {
+      const nameMatch = v.name.toLowerCase().includes(input.toLowerCase());
+      const priceMatch = v.price == input; // allow exact price match
+      return nameMatch || priceMatch;
+    });
+
+    if (filtered.length === 0) {
+      searchOutput.innerHTML = "";
+      emptyMsg.style.display = "block";
+      emptyMsg.innerText = "No products found";
+      return;
+    }
+    emptyMsg.style.display = "none";
+
+    let html = "";
+    filtered.forEach((v) => {
+      const imgSrc = getProductImage(v);
+      html += `
+        <div class="col">
+          <div class="card h-100 border-0 shadow-sm">
+            <img src="${imgSrc}" class="card-img-top p-2" style="height:120px;object-fit:contain;background:#fafbfc;" />
+            <div class="card-body p-2 text-center">
+              <div class="fw-semibold small">${v.name}</div>
+              <div class="text-primary fw-bold">$${v.price}</div>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+    searchOutput.innerHTML = html;
+  }
+
+  // -------- cart logic --------
+  let cart = [];
+
+  function cartFun(proID) {
+    const product = products.find((v) => v.id === proID);
+    if (!product) return;
+
+    // deep clone to avoid reference issues
+    const cartItem = cart.find((item) => item.id === proID);
+    if (cartItem) {
+      cartItem.quantity += 1;
+    } else {
+      cart.push({
+        ...product,
+        quantity: 1,
+        image: getProductImage(product) // store resolved image
+      });
+    }
+    updateCartUI();
+  }
+
+  function removeFun(proID) {
+    cart = cart.filter((item) => item.id !== proID);
+    updateCartUI();
+  }
+
+  function updateCartUI() {
+    const tbody = document.getElementById("cartShow");
+    const emptyMsg = document.getElementById("cartEmptyMsg");
+    const cartCount = document.getElementById("cartCount");
+
+    if (cart.length === 0) {
+      tbody.innerHTML = "";
+      emptyMsg.style.display = "block";
+      cartCount.innerText = "0";
+      return;
+    }
+    emptyMsg.style.display = "none";
+
+    let html = "";
+    let totalQty = 0;
+    cart.forEach((item) => {
+      totalQty += item.quantity;
+      const imgSrc = item.image || getProductImage(item);
+      html += `
+        <tr>
+          <td><img src="${imgSrc}" width="56" height="56" style="object-fit:contain;background:#f8fafc;border-radius:12px;" /></td>
+          <td><span class="fw-medium">${item.name}</span></td>
+          <td>$${item.price}</td>
+          <td><span class="cart-quantity-badge">${item.quantity}</span></td>
+          <td>
+            <button class="btn-close-custom" onclick="removeFun(${item.id})">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </td>
+        </tr>
+      `;
+    });
+    tbody.innerHTML = html;
+    cartCount.innerText = totalQty;
+  }
+
+  // (optional) initial cart display
+  updateCartUI();
+
+  // make functions globally accessible
+  window.showData = showData;
+  window.searchFun = searchFun;
+  window.cartFun = cartFun;
+  window.removeFun = removeFun;
+</script>
 
 </body>
-<script src="../scripts/home.js"></script>
 </html>

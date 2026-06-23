@@ -16,6 +16,7 @@ function showData() {
                  <div class="card-body">
             <span>Name:${v.name}</span>
             <span>Price:${v.price}</span>
+            <button class="btn btn-primary" onclick="cartFun(${v.id})">cart</button>
         </div>
             </div>
         </div>
@@ -35,8 +36,8 @@ function searchFun(e) {
 
     let output = products.filter((v, i) => v.name.toLowerCase().trim().includes(searchData.toLowerCase().trim()) || v.price == searchData)
     console.log(output);
-    console.log(typeof(searchData));
-    
+    console.log(typeof (searchData));
+
     let data = ""
     output.map((v, i) => (
         data += `
@@ -51,6 +52,68 @@ function searchFun(e) {
         </div>
         `
     ))
-    document.getElementById("searchOutput").innerHTML=data
+    document.getElementById("searchOutput").innerHTML = data
 
+}
+
+// cart function
+
+var cart = []
+
+function cartFun(proID) {
+
+    let cartData = products.find((v, i) => v.id == proID)
+    console.log("cartData", cartData);
+
+    let existingData=cart.find((v,i)=>v.id ==proID)
+
+
+    if(existingData){
+        cartData.quantity ++
+    }
+    else{
+         cart.push(cartData)
+         cartData.quantity=1
+    }
+
+   
+    console.log("cart", cart);
+    showcart(cart)
+}
+
+
+
+function showcart(cartPro) {
+    let data = ""
+    console.log("showcart",cartPro);
+    
+    cartPro.map((v,i) => (
+        data += `
+         <tr>
+                <td>
+                    <img src="${v.image}"height="100px" width="100px" alt="">
+                </td>
+                <td>${v.name}</td>
+                <td>${v.price}</td>
+                <td>${v.quantity}</td>
+                <td><button class="btn btn-close" onclick="removeFun(${v.id})"></button></td>
+            </tr>
+      `
+    ))
+    document.getElementById("cartShow").innerHTML=data
+
+}
+
+
+
+function removeFun(proID){
+
+
+let removeData=cart.find((v,i)=>v.id==proID)
+
+console.log(removeData);
+
+cart=cart.filter((v,i)=>v.id!=proID)
+
+showcart(cart)
 }
